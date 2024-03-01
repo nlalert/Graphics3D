@@ -1,4 +1,3 @@
-#undef GLFW_DLL
 #include <iostream>
 #include <stdio.h>
 #include <string>
