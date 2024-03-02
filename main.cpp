@@ -63,7 +63,7 @@ void CreateTriangle()
 
 void CreateOBJ() {
     Mesh *obj1 = new Mesh();
-    bool loaded = obj1->CreateMeshFromOBJ("Models/suzanne.obj");
+    bool loaded = obj1->CreateMeshFromOBJ("Models/cake.obj");
     if (loaded)
     {
         for (int i = 0; i < 10; i++)
