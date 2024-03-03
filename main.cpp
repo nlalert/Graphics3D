@@ -63,13 +63,22 @@ void CreateTriangle()
 
 void CreateOBJ() {
     Mesh *obj1 = new Mesh();
-    bool loaded = obj1->CreateMeshFromOBJ("Models/cake.obj");
-    if (loaded)
+    Mesh *obj2 = new Mesh();
+    Mesh *obj3 = new Mesh();
+    Mesh *obj4 = new Mesh();
+    Mesh *obj5 = new Mesh();
+    bool loaded_1 = obj1->CreateMeshFromOBJ("Models/cake.obj");
+    bool loaded_2 = obj2->CreateMeshFromOBJ("Models/chocolate.obj");
+    bool loaded_3 = obj3->CreateMeshFromOBJ("Models/cream.obj");
+    bool loaded_4 = obj4->CreateMeshFromOBJ("Models/candle.obj");
+    bool loaded_5 = obj5->CreateMeshFromOBJ("Models/fire.obj");
+    if (loaded_1 && loaded_2 && loaded_3 && loaded_4 && loaded_5)
     {
-        for (int i = 0; i < 10; i++)
-        {
-            meshList.push_back(obj1);
-        }
+        meshList.push_back(obj1);
+        meshList.push_back(obj2);
+        meshList.push_back(obj3);
+        meshList.push_back(obj4);
+        meshList.push_back(obj5);
     }
     else
     {
@@ -127,28 +136,52 @@ int main()
     glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / (GLfloat)mainWindow.getBufferHeight(), 0.1f, 100.0f);
     //glm::mat4 projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 
-    unsigned int texture;
+    unsigned int texture[5];
+    for (int i = 0; i < 5; i++)
+    {
+        glGenTextures(1, &texture[i]);
+        glBindTexture(GL_TEXTURE_2D, texture[i]);
 
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        int width, height, nrChannels;
+        unsigned char *data = 0;
 
-    int width, height, nrChannels;
-    unsigned char *data = stbi_load("Textures/uvmap.png", &width, &height, &nrChannels,0);
-    if (data){
-        //bind image with texture
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        switch (i)
+        {
+        case 0:
+            data = stbi_load("Textures/cake.jpg", &width, &height, &nrChannels,0);
+            break;    
+        case 1:
+            data = stbi_load("Textures/chocolate.jpg", &width, &height, &nrChannels,0);
+            break;
+        case 2:
+            data = stbi_load("Textures/cream.jpg", &width, &height, &nrChannels,0);
+            break;
+        case 3:
+            data = stbi_load("Textures/candle.jpg", &width, &height, &nrChannels,0);
+            break;
+        case 4:
+            data = stbi_load("Textures/fire.jpg", &width, &height, &nrChannels,0);
+            break;
+        default:
+            break;
+        }
+
+        if (data){
+            //bind image with texture
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else{
+            std::cout<<"Failed to load texture"<<std::endl;
+        }
+
+        stbi_image_free(data);
     }
-    else{
-        std::cout<<"Failed to load texture"<<std::endl;
-    }
-
-    stbi_image_free(data);
 
     float deltaTime, lastFrame;
     
@@ -158,6 +191,7 @@ int main()
         float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+        
         glm::mat4 view (1.0f);
 
         //Get + Handle user input events
@@ -216,38 +250,25 @@ int main()
 
         view = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 
-        glm::vec3 pyramidPositions[] =
-        {
-            glm::vec3(0.0f, 0.0f, -2.5f),
-            glm::vec3( 2.0f, 5.0f, -15.0f),
-            glm::vec3(-1.5f, -2.2f, -2.5f),
-            glm::vec3(-3.8f, -2.0f, -12.3f),
-            glm::vec3( 2.4f, -0.4f, -3.5f),
-            glm::vec3(-1.7f, 3.0f, -7.5f),
-            glm::vec3( 1.3f, -2.0f, -2.5f),
-            glm::vec3( 1.5f, 2.0f, -2.5f),
-            glm::vec3( 1.5f, 0.2f, -1.5f),
-            glm::vec3(-1.3f, 1.0f, -1.5f)
-        };
+        for (size_t i = 0; i < 5; i++)
 
-        //Object
-        for (int i = 0; i < 10; i++)
         {
+            //Object
             glm::mat4 model (1.0f);
 
-            model = glm::translate(model, pyramidPositions[i]);
-            model = glm::rotate(model, glm::radians(2.0f * i) ,glm::vec3(1.0f, 0.3f, 0.5f));
-            model = glm::scale(model, glm::vec3(0.8f, 0.8f, 1.0f));
+            model = glm::translate(model, glm::vec3(0.0f, -0.8f, 0.0f));
 
             glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
             glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
             glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+
             //light
             glActiveTexture(GL_TEXTURE0);
             
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, texture[i]);
             meshList[i]->RenderMesh();
         }
+
         glUniform3fv(shaderList[0]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
         glUniform3fv(shaderList[0]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
         glUniform3fv(shaderList[0]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
