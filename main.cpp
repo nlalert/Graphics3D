@@ -63,7 +63,7 @@ void CreateTriangle()
 
 void CreateOBJ() {
     Mesh *obj1 = new Mesh();
-    bool loaded = obj1->CreateMeshFromOBJ("Models/suzanne.obj");
+    bool loaded = obj1->CreateMeshFromOBJ("Models/table.obj");
     if (loaded)
     {
         for (int i = 0; i < 10; i++)
@@ -138,7 +138,8 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int width, height, nrChannels;
-    unsigned char *data = stbi_load("Textures/uvmap.png", &width, &height, &nrChannels,0);
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *data = stbi_load("Textures/table.png", &width, &height, &nrChannels,0);
     if (data){
         //bind image with texture
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
