@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include <unordered_map>
 
 Mesh::Mesh() {
     VAO = 0;
@@ -95,19 +96,19 @@ bool Mesh::CreateMeshFromOBJ(const char *path) {
     while (std::getline(file, line)) {
         if (line.substr(0, 2) == "v ") {
             glm::vec3 vertex;
-            sscanf_s(line.c_str(), "v %f %f %f", &vertex.x, &vertex.y, &vertex.z);
+            sscanf(line.c_str(), "v %f %f %f", &vertex.x, &vertex.y, &vertex.z);
             tempVertices.push_back(vertex);
         } else if (line.substr(0, 3) == "vt ") {
             glm::vec2 texCoord;
-            sscanf_s(line.c_str(), "vt %f %f", &texCoord.x, &texCoord.y);
+            sscanf(line.c_str(), "vt %f %f", &texCoord.x, &texCoord.y);
             tempTexCoords.push_back(texCoord);
         } else if (line.substr(0, 3) == "vn ") {
             glm::vec3 normal;
-            sscanf_s(line.c_str(), "vn %f %f %f", &normal.x, &normal.y, &normal.z);
+            sscanf(line.c_str(), "vn %f %f %f", &normal.x, &normal.y, &normal.z);
             tempNormals.push_back(normal);
         } else if (line.substr(0, 2) == "f ") {
             Face face;
-            sscanf_s(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d", &face.vIndex[0], &face.vtIndex[0], &face.vnIndex[0],
+            sscanf(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d", &face.vIndex[0], &face.vtIndex[0], &face.vnIndex[0],
                      &face.vIndex[1], &face.vtIndex[1], &face.vnIndex[1], &face.vIndex[2], &face.vtIndex[2], &face.vnIndex[2]);
             faces.push_back(face);
         }
@@ -116,28 +117,30 @@ bool Mesh::CreateMeshFromOBJ(const char *path) {
 
     std::vector<unsigned int> indices;
 
+    std::unordered_map<std::string, int> vertexToIndex;
+
     for (Face face : faces) {
         for (int i = 0; i < 3; i++) {
             glm::vec3 currVertex = tempVertices[face.vIndex[i] - 1];
             glm::vec2 currTexCoord = tempTexCoords[face.vtIndex[i] - 1];
             glm::vec3 currNormal = tempNormals[face.vnIndex[i] - 1];
 
-            bool reuse = false;
-            for (int j = 0; j < vertices.size(); j++) {
-                if (currVertex == vertices[j] && currTexCoord == texCoords[j] && currNormal == normals[j]) {
-                    indices.push_back(j);
-                    reuse = true;
-                    break;
-                }
-            }
-            if (reuse) {
-                continue;
-            }
+            std::stringstream ss;
+            ss << currVertex.x << currVertex.y << currVertex.z
+               << currTexCoord.x << currTexCoord.y
+               << currNormal.x << currNormal.y << currNormal.z;
+            std::string vertexKey = ss.str();
 
-            indices.push_back(vertices.size());
-            vertices.push_back(currVertex);
-            texCoords.push_back(currTexCoord);
-            normals.push_back(currNormal);
+            if (vertexToIndex.count(vertexKey)) {
+                indices.push_back(vertexToIndex[vertexKey]);
+            } else {
+                int newIndex = vertices.size();
+                vertexToIndex[vertexKey] = newIndex;
+                indices.push_back(newIndex);
+                vertices.push_back(currVertex);
+                texCoords.push_back(currTexCoord);
+                normals.push_back(currNormal);
+            }
         }
     }
 
