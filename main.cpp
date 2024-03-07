@@ -29,7 +29,7 @@ std::vector<std::string> modelTextures = {"table", "cake", "table"};
 
 float yaw = -90.0f, pitch = 0.0f;
 
-glm::vec3 lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
+glm::vec3 lightColour = glm::vec3(255.0f, 255.0f, 255.0f);
 glm::vec3 lightPos = glm::vec3(5.0f, 5.0f, 0.0f);
 
 //Vertex Shader
@@ -139,7 +139,7 @@ int main()
 
     CreateOBJ();
     CreateShaders();
-
+    lightColour /= 255;
     GLuint uniformModel = 0, uniformProjection = 0, uniformView = 0;
 
     glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 4.0f);
