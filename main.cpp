@@ -61,7 +61,7 @@ std::vector<std::string> fShaders = {"shader", "lightShader"};
 float yaw = -90.0f, pitch = 0.0f;
 
 glm::vec3 lightColour = glm::vec3(255.0f, 255.0f, 255.0f);
-glm::vec3 lightPos = glm::vec3(5.0f, 5.0f, 0.0f);
+glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
 
 void CreateOBJ() {
     for (int i = 0; i < models.size(); i++){
