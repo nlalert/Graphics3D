@@ -24,12 +24,34 @@ std::vector<Mesh*> meshList;
 std::vector<Shader*> shaderList;
 
 //choose model and texture here
-std::vector<std::string> models = {"cube","table", "cake", "balloon"};
-std::vector<std::string> modelTextures = {"uvmap","table", "cake", "red"};
+std::vector<std::string> models = { "cube",
+                                    "table", 
+                                    "cake", 
+                                    "balloon", 
+                                    "balloon", 
+                                    "balloon", 
+                                    "balloon", 
+                                    "balloon", 
+                                    "balloon", 
+                                    "balloon", 
+                                    "balloon"};
+
+std::vector<std::string> modelTextures = {  "uvmap",
+                                            "table", 
+                                            "cake", 
+                                            "red",
+                                            "red",
+                                            "red",
+                                            "red",
+                                            "red",
+                                            "red",
+                                            "red",
+                                            "red"};
+
 std::vector<std::string> vShaders = {"shader", "lightShader"};
 std::vector<std::string> fShaders = {"shader", "lightShader"};
 
-std::vector<int> modelShaders = {1,0,0,0};// use lightShader, shader, shader, shader (in order of 4 object's shader index)
+std::vector<int> modelShaders = {1,0,0,0,0,0,0,0,0,0,0};// use lightShader, shader, shader, shader (in order of 4 object's shader index)
 
 float yaw = -90.0f, pitch = 0.0f;
 
@@ -216,7 +238,14 @@ int main()
             lightPos,//cubelight
             glm::vec3(0.0f, 0.0f, 0.0f),//table
             glm::vec3(0.0f, 0.85f, 0.0f),//cake
-            glm::vec3(1.0f, 1.0f, 0.0f),//balloon
+            glm::vec3(1.0f, 0.85f, 0.0f),//balloon
+            glm::vec3(1.0f, 0.95f, -0.2f),//balloon
+            glm::vec3(1.3f, 0.85f, 0.1f),//balloon
+            glm::vec3(1.1f, 0.75f, 0.0f),//balloon
+            glm::vec3(1.0f, 0.85f, 0.0f),//balloon
+            glm::vec3(-1.2f, 0.85f, 0.3f),//balloon
+            glm::vec3(1.3f, 0.85f, 0.0f),//balloon
+            glm::vec3(1.1f, 0.85f, 0.0f),//balloon
         };
 
         glm::vec3 modelScale[] =
@@ -224,6 +253,13 @@ int main()
             glm::vec3(0.2f, 0.2f, 0.2f),//cubelight
             glm::vec3(1.0f, 1.0f, 1.0f),//table
             glm::vec3(1.0f, 1.0f, 1.0f),//cake
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
         };
         //Object
