@@ -25,35 +25,30 @@ std::vector<Shader*> shaderList;
 
 //choose model and texture here
 //if add or remove, go to modelPosition array and to the same
-std::vector<std::string> models = { "cube",
-                                    "table", 
-                                    "cake", 
-                                    "balloon", 
-                                    "balloon", 
-                                    "balloon", 
-                                    "balloon", 
-                                    "balloon", 
-                                    "balloon", 
-                                    "balloon", 
-                                    "balloon",
-                                    "floor",
-                                    "wall"};
+struct Model {
+    std::string name;
+    std::string texture;
+    int shaderIndex;
 
-std::vector<std::string> modelTextures = {  "uvmap",
-                                            "table", 
-                                            "cake", 
-                                            "red",
-                                            "red",
-                                            "red",
-                                            "red",
-                                            "red",
-                                            "red",
-                                            "red",
-                                            "red",
-                                            "oakfloor",
-                                            "wall"};
+    Model(const std::string& n, const std::string& tex, int shader)
+        : name(n), texture(tex), shaderIndex(shader) {}
+};
 
-std::vector<int> modelShaders = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};// use lightShader, shader, shader, shader (in order of 4 object's shader index)
+std::vector<Model> models = {
+        {"cube", "uvmap", 1},
+        {"table", "table", 0},
+        {"cake", "cake", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"balloon", "red", 0},
+        {"floor", "oakfloor", 0},
+        {"wall", "wall", 0}
+    };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
 std::vector<std::string> fShaders = {"shader", "lightShader"};
@@ -66,7 +61,7 @@ glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
 void CreateOBJ() {
     for (int i = 0; i < models.size(); i++){
         Mesh *obj = new Mesh();
-        bool loaded = obj->CreateMeshFromOBJ(("Models/" + models[i] + ".obj").c_str());
+        bool loaded = obj->CreateMeshFromOBJ(("Models/" + models[i].name + ".obj").c_str());
         if (loaded){
             meshList.push_back(obj);
         }
@@ -79,8 +74,8 @@ void CreateOBJ() {
 void CreateShaders()
 {
     for (int i = 0; i < vShaders.size(); i++){
-        std::string frag = "Shaders/"+ fShaders[i] + ".frag";
-        std::string vert = "Shaders/"+ vShaders[i] + ".vert";
+        std::string frag = "Shaders/" + fShaders[i] + ".frag";
+        std::string vert = "Shaders/" + vShaders[i] + ".vert";
         Shader* shader = new Shader();
         shader->CreateFromFiles(vert.c_str(), frag.c_str());
         shaderList.push_back(shader);
@@ -94,7 +89,7 @@ void CreateTextures(unsigned int texture[])
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    for (int i = 0; i < modelTextures.size(); i++){
+    for (int i = 0; i < models.size(); i++){
         glGenTextures(1, &texture[i]);
         glBindTexture(GL_TEXTURE_2D, texture[i]);
 
@@ -102,7 +97,7 @@ void CreateTextures(unsigned int texture[])
         unsigned char *data = 0;
 
         stbi_set_flip_vertically_on_load(true);
-        data = stbi_load(("Textures/" + modelTextures[i] + ".png").c_str(), &width, &height, &nrChannels,0);
+        data = stbi_load(("Textures/" + models[i].texture + ".png").c_str(), &width, &height, &nrChannels,0);
 
         if (data){
             //bind image with texture
@@ -119,24 +114,35 @@ void CreateTextures(unsigned int texture[])
 
 void checkMouse()
 {
-    double xpos, ypos;
+double xpos, ypos;
     glfwGetCursorPos(mainWindow.getWindow(), &xpos, &ypos);
 
-    static float lastX = xpos;
-    static float lastY = ypos;
+    static double lastX = xpos;
+    static double lastY = ypos;
 
-    float sensitivityX = 0.1f;
-    float sensitivityY = 0.1f;
-    float xoffset =  (xpos - lastX) * sensitivityX;
-    float yoffset =  (lastY -ypos) * sensitivityY;
+    int width, height;
+    glfwGetWindowSize(mainWindow.getWindow(), &width, &height);
+
+    double xoffset = (xpos - lastX);
+    double yoffset = (lastY - ypos);
+
+    float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
 
     lastX = xpos;
     lastY = ypos;
 
     yaw += xoffset;
-    pitch += yoffset;
+    pitch -= yoffset;
 
     pitch = glm::clamp(pitch, -89.0f, 89.0f);
+
+    if (xpos <= 0 || xpos >= width - 1 || ypos <= 0 || ypos >= height - 1) {
+        glfwSetCursorPos(mainWindow.getWindow(), width / 2, height / 2);
+        lastX = width / 2;
+        lastY = height / 2;
+    }
 }
 
 void checkKeyboard(glm::vec3 &cameraPos, const glm::vec3 &cameraDirection, const glm::vec3 &cameraRight, const glm::vec3 &up, const float deltaTime)
@@ -181,6 +187,7 @@ int main()
 
     CreateOBJ();
     CreateShaders();
+
     lightColour /= 255;
     GLuint uniformModel = 0, uniformProjection = 0, uniformView = 0;
 
@@ -273,7 +280,7 @@ int main()
         //Object
         for (int i = 0; i < models.size(); i++)
         {
-            int shaderIndex = modelShaders[i];
+            int shaderIndex = models[i].shaderIndex;
             shaderList[shaderIndex]->UseShader();
             uniformModel = shaderList[shaderIndex]->GetUniformLocation("model");
             uniformProjection = shaderList[shaderIndex]->GetUniformLocation("projection");
@@ -289,13 +296,13 @@ int main()
             glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
             glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
             //light
-            glActiveTexture(GL_TEXTURE0);
-            
-            glBindTexture(GL_TEXTURE_2D, texture[i]);
-            meshList[i]->RenderMesh();
             glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
             glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
             glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
+
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, texture[i]);
+            meshList[i]->RenderMesh();
         }
         
         glUseProgram(0);
