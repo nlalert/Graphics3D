@@ -33,18 +33,26 @@ vec3 diffuseLight()
 vec3 specularLight()
 {
     float specularStrength = 0.8f;
-    float shininess = 64.0f;
+    float shininess = 256.0f;//= 64 for phong
+     
     vec3 lightDir = normalize(lightPos - FragPos);
     vec3 norm = normalize(Normal);
-    vec3 reflectDir = reflect(-lightDir, norm);
+
     vec3 viewDir = normalize(viewPos - FragPos);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0f), shininess);
+
+    vec3 reflectDir = reflect(-lightDir, norm);
+
+    //Phong Shading
+    //float spec = pow(max(dot(viewDir, reflectDir), 0.0f), shininess);
+
+    //Blinn-Phong Shading
+    vec3 halfDir = (viewDir + lightDir)/2.0f;
+    float spec = pow(max(dot(halfDir, norm), 0.0f), shininess);
     vec3 specular = lightColour * spec * specularStrength;
     return specular;
 }
 
 void main()
 {
-    //Phong Shading
     colour = texture(texture2D, TexCoord) * vec4(ambientLight() + diffuseLight() + specularLight(), 1.0f);
 }
