@@ -24,6 +24,7 @@ std::vector<Mesh*> meshList;
 std::vector<Shader*> shaderList;
 
 //choose model and texture here
+//if add or remove, go to modelPosition array and to the same
 std::vector<std::string> models = { "cube",
                                     "table", 
                                     "cake", 
@@ -34,7 +35,9 @@ std::vector<std::string> models = { "cube",
                                     "balloon", 
                                     "balloon", 
                                     "balloon", 
-                                    "balloon"};
+                                    "balloon",
+                                    "floor",
+                                    "wall"};
 
 std::vector<std::string> modelTextures = {  "uvmap",
                                             "table", 
@@ -46,12 +49,14 @@ std::vector<std::string> modelTextures = {  "uvmap",
                                             "red",
                                             "red",
                                             "red",
-                                            "red"};
+                                            "red",
+                                            "oakfloor",
+                                            "wall"};
+
+std::vector<int> modelShaders = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};// use lightShader, shader, shader, shader (in order of 4 object's shader index)
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
 std::vector<std::string> fShaders = {"shader", "lightShader"};
-
-std::vector<int> modelShaders = {1,0,0,0,0,0,0,0,0,0,0};// use lightShader, shader, shader, shader (in order of 4 object's shader index)
 
 float yaw = -90.0f, pitch = 0.0f;
 
@@ -224,11 +229,9 @@ int main()
         cameraRight = glm::normalize(glm::cross(cameraDirection, up));
         cameraUp = glm::normalize(glm::cross(cameraRight, cameraDirection));
 
-
         //Clear window
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
         view = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 
@@ -246,6 +249,8 @@ int main()
             glm::vec3(-1.2f, 0.85f, 0.3f),//balloon
             glm::vec3(1.3f, 0.85f, 0.0f),//balloon
             glm::vec3(1.1f, 0.85f, 0.0f),//balloon
+            glm::vec3(0.0f, 0.0f, 0.0f),//floor
+            glm::vec3(0.0f, 0.0f, 0.0f),//wall
         };
 
         glm::vec3 modelScale[] =
@@ -261,6 +266,9 @@ int main()
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+            glm::vec3(1.0f, 1.0f, 1.0f),//floor
+            glm::vec3(1.0f, 1.0f, 1.0f),//wall
         };
         //Object
         for (int i = 0; i < models.size(); i++)
