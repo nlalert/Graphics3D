@@ -24,26 +24,24 @@ std::vector<Mesh*> meshList;
 std::vector<Shader*> shaderList;
 
 //choose model and texture here
-std::vector<std::string> models = {"table", "cake", "table"};
-std::vector<std::string> modelTextures = {"table", "cake", "table"};
+std::vector<std::string> models = {"cube","table", "cake", "balloon"};
+std::vector<std::string> modelTextures = {"uvmap","table", "cake", "red"};
+std::vector<std::string> vShaders = {"shader", "lightShader"};
+std::vector<std::string> fShaders = {"shader", "lightShader"};
+
+std::vector<int> modelShaders = {1,0,0,0};// use lightShader, shader, shader, shader (in order of 4 object's shader index)
 
 float yaw = -90.0f, pitch = 0.0f;
 
 glm::vec3 lightColour = glm::vec3(255.0f, 255.0f, 255.0f);
 glm::vec3 lightPos = glm::vec3(5.0f, 5.0f, 0.0f);
 
-//Vertex Shader
-static const char* vShader = "Shaders/shader.vert";
-
-//Fragment Shader
-static const char* fShader = "Shaders/shader.frag";
-
 void CreateOBJ() {
     for (int i = 0; i < models.size(); i++){
-        Mesh *obj1 = new Mesh();
-        bool loaded = obj1->CreateMeshFromOBJ(("Models/" + models[i] + ".obj").c_str());
+        Mesh *obj = new Mesh();
+        bool loaded = obj->CreateMeshFromOBJ(("Models/" + models[i] + ".obj").c_str());
         if (loaded){
-            meshList.push_back(obj1);
+            meshList.push_back(obj);
         }
         else{
             std::cout<<"Failed to load model"<<std::endl;
@@ -53,9 +51,13 @@ void CreateOBJ() {
 
 void CreateShaders()
 {
-    Shader* shader1 = new Shader();
-    shader1->CreateFromFiles(vShader, fShader);
-    shaderList.push_back(shader1);
+    for (int i = 0; i < vShaders.size(); i++){
+        std::string frag = "Shaders/"+ fShaders[i] + ".frag";
+        std::string vert = "Shaders/"+ vShaders[i] + ".vert";
+        Shader* shader = new Shader();
+        shader->CreateFromFiles(vert.c_str(), frag.c_str());
+        shaderList.push_back(shader);
+    }
 }
 
 void CreateTextures(unsigned int texture[])
@@ -130,6 +132,19 @@ void checkKeyboard(glm::vec3 &cameraPos, const glm::vec3 &cameraDirection, const
     if(glfwGetKey(mainWindow.getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS){
         cameraPos += up * deltaTime * 5.0f;
     }
+
+    if(glfwGetKey(mainWindow.getWindow(), GLFW_KEY_UP) == GLFW_PRESS){
+        lightPos += cameraDirection * deltaTime * 5.0f;
+    }
+    if(glfwGetKey(mainWindow.getWindow(), GLFW_KEY_DOWN) == GLFW_PRESS){
+        lightPos -= cameraDirection * deltaTime * 5.0f;
+    }
+    if(glfwGetKey(mainWindow.getWindow(), GLFW_KEY_LEFT) == GLFW_PRESS){
+        lightPos -= cameraRight * deltaTime * 5.0f;
+    }
+    if(glfwGetKey(mainWindow.getWindow(), GLFW_KEY_RIGHT) == GLFW_PRESS){
+        lightPos += cameraRight * deltaTime * 5.0f;
+    }
 }
 
 int main()
@@ -157,7 +172,7 @@ int main()
     CreateTextures(texture);
 
     float deltaTime, lastFrame;
-    
+
     //Loop until window closed
     while (!mainWindow.getShouldClose())
     {
@@ -192,28 +207,39 @@ int main()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //draw here
-        shaderList[0]->UseShader();
-        uniformModel = shaderList[0]->GetUniformLocation("model");
-        uniformProjection = shaderList[0]->GetUniformLocation("projection");
-        uniformView = shaderList[0]->GetUniformLocation("view");
 
         view = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 
+        //draw here
         glm::vec3 modelPositions[] =
         {
+            lightPos,//cubelight
             glm::vec3(0.0f, 0.0f, 0.0f),//table
             glm::vec3(0.0f, 0.85f, 0.0f),//cake
+            glm::vec3(1.0f, 1.0f, 0.0f),//balloon
         };
 
+        glm::vec3 modelScale[] =
+        {
+            glm::vec3(0.2f, 0.2f, 0.2f),//cubelight
+            glm::vec3(1.0f, 1.0f, 1.0f),//table
+            glm::vec3(1.0f, 1.0f, 1.0f),//cake
+            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
+        };
         //Object
         for (int i = 0; i < models.size(); i++)
         {
+            int shaderIndex = modelShaders[i];
+            shaderList[shaderIndex]->UseShader();
+            uniformModel = shaderList[shaderIndex]->GetUniformLocation("model");
+            uniformProjection = shaderList[shaderIndex]->GetUniformLocation("projection");
+            uniformView = shaderList[shaderIndex]->GetUniformLocation("view");
+
             glm::mat4 model (1.0f);
 
             model = glm::translate(model, modelPositions[i]);
             //model = glm::rotate(model, glm::radians(2.0f * i) ,glm::vec3(1.0f, 0.3f, 0.5f));
-            //model = glm::scale(model, glm::vec3(0.8f, 0.8f, 1.0f));
+            model = glm::scale(model, modelScale[i]);
 
             glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
             glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
@@ -223,10 +249,10 @@ int main()
             
             glBindTexture(GL_TEXTURE_2D, texture[i]);
             meshList[i]->RenderMesh();
+            glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
+            glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
+            glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
         }
-        glUniform3fv(shaderList[0]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
-        glUniform3fv(shaderList[0]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
-        glUniform3fv(shaderList[0]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
         
         glUseProgram(0);
         //end draw
