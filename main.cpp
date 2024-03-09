@@ -22,9 +22,8 @@ const GLint WIDTH = 800, HEIGHT = 600;
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader*> shaderList;
+Shader* depthShader;
 
-//choose model and texture here
-//if add or remove, go to modelPosition array and to the same
 struct Model {
     std::string name;
     std::string texture;
@@ -33,6 +32,8 @@ struct Model {
     Model(const std::string& n, const std::string& tex, int shader)
         : name(n), texture(tex), shaderIndex(shader) {}
 };
+//choose model and texture here
+//if add or remove, go to modelPosition array and to the same
 
 std::vector<Model> models = {
         {"cube", "uvmap", 1},
@@ -54,9 +55,11 @@ std::vector<std::string> vShaders = {"shader", "lightShader"};
 std::vector<std::string> fShaders = {"shader", "lightShader"};
 
 float yaw = -90.0f, pitch = 0.0f;
+GLuint uniformModel = 0, uniformProjection = 0, uniformView = 0;
 
 glm::vec3 lightColour = glm::vec3(255.0f, 255.0f, 255.0f);
 glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 4.0f);
 
 void CreateOBJ() {
     for (int i = 0; i < models.size(); i++){
@@ -73,6 +76,8 @@ void CreateOBJ() {
 
 void CreateShaders()
 {
+    depthShader = new Shader();
+    depthShader->CreateFromFiles("Shaders/depthShader.vert", "Shaders/depthShader.frag");;
     for (int i = 0; i < vShaders.size(); i++){
         std::string frag = "Shaders/" + fShaders[i] + ".frag";
         std::string vert = "Shaders/" + vShaders[i] + ".vert";
@@ -179,6 +184,75 @@ void checkKeyboard(glm::vec3 &cameraPos, const glm::vec3 &cameraDirection, const
         lightPos += cameraRight * deltaTime * 5.0f;
     }
 }
+void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm::mat4 lightProjection, unsigned int texture[], GLuint depthMap){
+    //draw here
+    glm::vec3 modelPositions[] =
+    {
+        lightPos,//cubelight
+        glm::vec3(0.0f, 0.0f, 0.0f),//table
+        glm::vec3(0.0f, 0.85f, 0.0f),//cake
+        glm::vec3(1.0f, 0.85f, 0.0f),//balloon
+        glm::vec3(1.0f, 0.95f, -0.2f),//balloon
+        glm::vec3(1.3f, 0.85f, 0.1f),//balloon
+        glm::vec3(1.1f, 0.75f, 0.0f),//balloon
+        glm::vec3(1.0f, 0.85f, 0.0f),//balloon
+        glm::vec3(-1.2f, 0.85f, 0.3f),//balloon
+        glm::vec3(1.3f, 0.85f, 0.0f),//balloon
+        glm::vec3(1.1f, 0.85f, 0.0f),//balloon
+        glm::vec3(0.0f, 0.0f, 0.0f),//floor
+        glm::vec3(0.0f, 0.0f, 0.0f),//wall
+    };
+
+    glm::vec3 modelScale[] =
+    {
+        glm::vec3(0.05f),//cubelight
+        glm::vec3(1.0f),//table
+        glm::vec3(1.0f),//cake
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//balloon
+        glm::vec3(1.0f),//floor
+        glm::vec3(1.0f),//wall
+    };
+    //Object
+    for (int i = 0; i < models.size(); i++)
+    {
+        int shaderIndex = models[i].shaderIndex;
+        shaderList[shaderIndex]->UseShader();
+        uniformModel = shaderList[shaderIndex]->GetUniformLocation("model");
+        uniformProjection = shaderList[shaderIndex]->GetUniformLocation("projection");
+        uniformView = shaderList[shaderIndex]->GetUniformLocation("view");
+        glUniformMatrix4fv(shaderList[shaderIndex]->GetUniformLocation("lightProjection"), 1, GL_FALSE, glm::value_ptr(lightProjection));
+        glUniformMatrix4fv(shaderList[shaderIndex]->GetUniformLocation("lightView"), 1, GL_FALSE, glm::value_ptr(lightView));
+        glm::mat4 model (1.0f);
+
+        model = glm::translate(model, modelPositions[i]);
+        //model = glm::rotate(model, glm::radians(2.0f * i) ,glm::vec3(1.0f, 0.3f, 0.5f));
+        model = glm::scale(model, modelScale[i]);
+
+        glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+        //light
+        glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
+        glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
+        glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture[i]);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glUniform1i(shaderList[shaderIndex]->GetUniformLocation("texture2D"), 0);
+        glUniform1i(shaderList[shaderIndex]->GetUniformLocation("shadowMap"), 1);
+        meshList[i]->RenderMesh();
+    }
+}
 
 int main()
 {
@@ -189,9 +263,7 @@ int main()
     CreateShaders();
 
     lightColour /= 255;
-    GLuint uniformModel = 0, uniformProjection = 0, uniformView = 0;
 
-    glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 4.0f);
     glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -207,6 +279,27 @@ int main()
 
     float deltaTime, lastFrame;
 
+    //shadow
+    GLuint depthMapFBO;
+
+    glGenFramebuffers(1, &depthMapFBO);
+    const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
+
+    GLuint depthMap;
+
+    glGenTextures(1, &depthMap);
+    glBindTexture(GL_TEXTURE_2D, depthMap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     //Loop until window closed
     while (!mainWindow.getShouldClose())
     {
@@ -242,69 +335,34 @@ int main()
 
         view = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 
-        //draw here
-        glm::vec3 modelPositions[] =
-        {
-            lightPos,//cubelight
-            glm::vec3(0.0f, 0.0f, 0.0f),//table
-            glm::vec3(0.0f, 0.85f, 0.0f),//cake
-            glm::vec3(1.0f, 0.85f, 0.0f),//balloon
-            glm::vec3(1.0f, 0.95f, -0.2f),//balloon
-            glm::vec3(1.3f, 0.85f, 0.1f),//balloon
-            glm::vec3(1.1f, 0.75f, 0.0f),//balloon
-            glm::vec3(1.0f, 0.85f, 0.0f),//balloon
-            glm::vec3(-1.2f, 0.85f, 0.3f),//balloon
-            glm::vec3(1.3f, 0.85f, 0.0f),//balloon
-            glm::vec3(1.1f, 0.85f, 0.0f),//balloon
-            glm::vec3(0.0f, 0.0f, 0.0f),//floor
-            glm::vec3(0.0f, 0.0f, 0.0f),//wall
-        };
+        //first pass: depth map
+        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        glm::mat4 lightProjection = glm::perspective(360.0f, 1.0f, 0.1f, 100.0f);
+        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, 0.0f), up);
 
-        glm::vec3 modelScale[] =
-        {
-            glm::vec3(0.2f, 0.2f, 0.2f),//cubelight
-            glm::vec3(1.0f, 1.0f, 1.0f),//table
-            glm::vec3(1.0f, 1.0f, 1.0f),//cake
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//balloon
-            glm::vec3(1.0f, 1.0f, 1.0f),//floor
-            glm::vec3(1.0f, 1.0f, 1.0f),//wall
-        };
-        //Object
-        for (int i = 0; i < models.size(); i++)
-        {
-            int shaderIndex = models[i].shaderIndex;
-            shaderList[shaderIndex]->UseShader();
-            uniformModel = shaderList[shaderIndex]->GetUniformLocation("model");
-            uniformProjection = shaderList[shaderIndex]->GetUniformLocation("projection");
-            uniformView = shaderList[shaderIndex]->GetUniformLocation("view");
+        depthShader->UseShader();
+        uniformModel = depthShader->GetUniformLocation("model");
+        uniformView = depthShader->GetUniformLocation("view");
+        uniformProjection = depthShader->GetUniformLocation("projection");
+        glCullFace(GL_FRONT);
+        RenderScene(lightView, lightProjection, lightView, lightProjection, texture, depthMap);
+    
+        glCullFace(GL_BACK);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-            glm::mat4 model (1.0f);
+        //second pass: scene
+        glViewport(0, 0, mainWindow.getBufferWidth(), mainWindow.getBufferHeight());
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        shaderList[0]->UseShader();
+        uniformModel = shaderList[0]->GetUniformLocation("model");
+        uniformView = shaderList[0]->GetUniformLocation("view");
+        uniformProjection = shaderList[0]->GetUniformLocation("projection");
 
-            model = glm::translate(model, modelPositions[i]);
-            //model = glm::rotate(model, glm::radians(2.0f * i) ,glm::vec3(1.0f, 0.3f, 0.5f));
-            model = glm::scale(model, modelScale[i]);
+        RenderScene(view, projection, lightView, lightProjection, texture, depthMap);
 
-            glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-            glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
-            glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-            //light
-            glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
-            glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
-            glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
-
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, texture[i]);
-            meshList[i]->RenderMesh();
-        }
-        
         glUseProgram(0);
         //end draw
 
