@@ -339,7 +339,7 @@ int main()
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
-        glm::mat4 lightProjection = glm::perspective(360.0f, 1.0f, 0.1f, 100.0f);
+        glm::mat4 lightProjection = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
         glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, 0.0f), up);
 
         depthShader->UseShader();
@@ -347,6 +347,7 @@ int main()
         uniformView = depthShader->GetUniformLocation("view");
         uniformProjection = depthShader->GetUniformLocation("projection");
         glCullFace(GL_FRONT);
+        
         RenderScene(lightView, lightProjection, lightView, lightProjection, texture, depthMap);
     
         glCullFace(GL_BACK);
