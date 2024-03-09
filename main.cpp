@@ -112,37 +112,37 @@ void CreateTextures(unsigned int texture[])
     }
 }
 
-void checkMouse()
-{
-double xpos, ypos;
-    glfwGetCursorPos(mainWindow.getWindow(), &xpos, &ypos);
-
-    static double lastX = xpos;
-    static double lastY = ypos;
-
+void checkMouse() {
+    // Get window size
     int width, height;
     glfwGetWindowSize(mainWindow.getWindow(), &width, &height);
 
-    double xoffset = (xpos - lastX);
-    double yoffset = (lastY - ypos);
+    // Get center coordinates
+    double centerX = width / 2.0;
+    double centerY = height / 2.0;
 
+    // Get current cursor position
+    double xpos, ypos;
+    glfwGetCursorPos(mainWindow.getWindow(), &xpos, &ypos);
+
+    // Calculate cursor movement offsets
+    double xoffset = xpos - centerX;
+    double yoffset = centerY - ypos; // Invert y-axis
+
+    // Set sensitivity
     float sensitivity = 0.1f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
-    lastX = xpos;
-    lastY = ypos;
-
+    // Update yaw and pitch
     yaw += xoffset;
     pitch -= yoffset;
 
+    // Clamp pitch to prevent flipping
     pitch = glm::clamp(pitch, -89.0f, 89.0f);
 
-    if (xpos <= 0 || xpos >= width - 1 || ypos <= 0 || ypos >= height - 1) {
-        glfwSetCursorPos(mainWindow.getWindow(), width / 2, height / 2);
-        lastX = width / 2;
-        lastY = height / 2;
-    }
+    // Reset cursor position to the center
+    glfwSetCursorPos(mainWindow.getWindow(), centerX, centerY);
 }
 
 void checkKeyboard(glm::vec3 &cameraPos, const glm::vec3 &cameraDirection, const glm::vec3 &cameraRight, const glm::vec3 &up, const float deltaTime)
