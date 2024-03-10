@@ -42,7 +42,7 @@ float ShadowCalculation()
 }
 vec3 ambientLight()
 {
-    float ambientStrength = 0.3f;
+    float ambientStrength = 0.2f;
     vec3 ambient = lightColour * ambientStrength;
     return ambient;
 }
@@ -59,7 +59,7 @@ vec3 diffuseLight()
 
 vec3 specularLight()
 {
-    float specularStrength = 0.8f;
+    float specularStrength = 0.3f;
     float shininess = 256.0f;//= 64 for phong
      
     vec3 lightDir = normalize(lightPos - FragPos);

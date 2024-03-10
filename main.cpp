@@ -48,7 +48,8 @@ std::vector<Model> models = {
         {"balloon", "red", 0},
         {"balloon", "red", 0},
         {"floor", "oakfloor", 0},
-        {"wall", "wall", 0}
+        {"wall", "wall", 0},
+        {"banner", "banner", 0},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -57,8 +58,8 @@ std::vector<std::string> fShaders = {"shader", "lightShader"};
 float yaw = -90.0f, pitch = 0.0f;
 GLuint uniformModel = 0, uniformProjection = 0, uniformView = 0;
 
-glm::vec3 lightColour = glm::vec3(255.0f, 255.0f, 255.0f);
-glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
+glm::vec3 lightColour = glm::vec3(255.0f, 248.0f, 212.0f);
+glm::vec3 lightPos = glm::vec3(-1.0f, 1.0f, 1.5f);
 glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 4.0f);
 
 void CreateOBJ() {
@@ -201,6 +202,25 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.1f, 0.85f, 0.0f),//balloon
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
+        glm::vec3(0.2f, 2.0f, -1.0f),//banner
+    };
+
+    float modelRotations[] =
+    {
+        glm::radians(0.0f),//cubelight
+        glm::radians(0.0f),//table
+        glm::radians(0.0f),//cake
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//floor
+        glm::radians(0.0f),//wall
+        glm::radians(15.0f),//banner
     };
 
     glm::vec3 modelScale[] =
@@ -219,6 +239,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//floor
         glm::vec3(1.0f),//wall
+        glm::vec3(0.6f),//banner
     };
     //Object
     for (int i = 0; i < models.size(); i++)
@@ -233,7 +254,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::mat4 model (1.0f);
 
         model = glm::translate(model, modelPositions[i]);
-        //model = glm::rotate(model, glm::radians(2.0f * i) ,glm::vec3(1.0f, 0.3f, 0.5f));
+        model = glm::rotate(model, -modelRotations[i], glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, modelScale[i]);
 
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -339,7 +360,7 @@ int main()
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
-        glm::mat4 lightProjection = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
+        glm::mat4 lightProjection = glm::perspective(180.0f, 1.0f, 0.1f, 100.0f);
         glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, 0.0f), up);
 
         depthShader->UseShader();
