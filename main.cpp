@@ -221,7 +221,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     float modelRotations[] =
     {
         glm::radians(0.0f),//cubelight
-        glm::radians(0.0f),//table
+        glm::radians(1.0f),//table
         glm::radians(0.0f),//cake
         glm::radians(0.0f),//balloon
         glm::radians(0.0f),//balloon
@@ -237,7 +237,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//hat
         glm::radians(0.0f),//plate
         glm::radians(0.0f),//drawer
-        glm::radians(0.0f),//TV
+        glm::radians(-1.0f),//TV
     };
 
     glm::vec3 modelScale[] =
