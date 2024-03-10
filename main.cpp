@@ -58,6 +58,7 @@ std::vector<Model> models = {
         {"hat", "hat", 0, 0.5f, 0.1f, 1.0f},
         {"plate", "plate", 0, 0.5f, 0.5f, 512.0f},
         {"drawer", "white", 0, 0.5f, 0.1f, 1.0f},
+        {"TV", "TV", 0, 0.6f, 0.5f, 512.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -213,7 +214,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
         glm::vec3(0.6f, 0.845f, 0.0f),//hat
         glm::vec3(-0.5f, 0.845f, 0.0f),//plate
-        glm::vec3(0.5f, 0.0f, -5.0f),//drawer
+        glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
+        glm::vec3(-0.5f, 1.35f, -4.5f),//TV
     };
 
     float modelRotations[] =
@@ -235,6 +237,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//hat
         glm::radians(0.0f),//plate
         glm::radians(0.0f),//drawer
+        glm::radians(0.0f),//TV
     };
 
     glm::vec3 modelScale[] =
@@ -256,6 +259,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.4f),//hat  
         glm::vec3(1.5f, 1.0f, 1.5f),//plate  
         glm::vec3(1.0f),//drawer  
+        glm::vec3(1.0f),//TV
     };
     //Object
     for (int i = 0; i < models.size(); i++)
