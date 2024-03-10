@@ -43,7 +43,7 @@ std::vector<Model> models = {
         //diffuseLight != 0
         {"cube", "uvmap", 1, 0, 0, 0},
         {"table", "table", 0, 0.5f, 0.1f, 1.0f},
-        {"cake", "cake", 0, 0.5f, 0.1f, 1.0f},
+        {"cake2", "cake", 0, 0.5f, 0.1f, 1.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
@@ -55,6 +55,7 @@ std::vector<Model> models = {
         {"floor", "oakfloor", 0, 0.5f, 0.5f, 256.0f},
         {"wall", "wall", 0, 0.5f, 0.1f, 1.0f},
         {"banner", "banner", 0, 0.5f, 0.1f, 1.0f},
+        {"hat", "hat", 0, 0.5f, 0.1f, 1.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -207,7 +208,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.1f, 0.85f, 0.0f),//balloon
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
-        glm::vec3(0.2f, 2.0f, -1.0f),//banner
+        glm::vec3(0.5f, 2.4f, -2.0f),//banner
+        glm::vec3(0.6f, 0.85f, 0.0f),//hat
     };
 
     float modelRotations[] =
@@ -225,7 +227,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//balloon
         glm::radians(0.0f),//floor
         glm::radians(0.0f),//wall
-        glm::radians(15.0f),//banner
+        glm::radians(25.0f),//banner
+        glm::radians(0.0f),//hat
     };
 
     glm::vec3 modelScale[] =
@@ -241,10 +244,10 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//floor
-        glm::vec3(1.0f),//wall
-        glm::vec3(0.6f),//banner
+        glm::vec3(1.0f, 2.0f, 1.0f),//wall
+        glm::vec3(1.0f),//banner
+        glm::vec3(0.4f)//hat
     };
     //Object
     for (int i = 0; i < models.size(); i++)
