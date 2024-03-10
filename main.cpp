@@ -37,7 +37,7 @@ struct Model {
 std::vector<Model> models = {
         {"cube", "uvmap", 1},
         {"table", "table", 0},
-        {"cake", "cake", 0},
+        {"bigcake", "bigcake", 0},
         {"balloon", "red", 0},
         {"balloon", "red", 0},
         {"balloon", "red", 0},
@@ -247,7 +247,7 @@ int main()
         {
             lightPos,//cubelight
             glm::vec3(0.0f, 0.0f, 0.0f),//table
-            glm::vec3(0.0f, 0.85f, 0.0f),//cake
+            glm::vec3(0.0f, 0.80f, 0.0f),//cake
             glm::vec3(1.0f, 0.85f, 0.0f),//balloon
             glm::vec3(1.0f, 0.95f, -0.2f),//balloon
             glm::vec3(1.3f, 0.85f, 0.1f),//balloon
@@ -264,7 +264,7 @@ int main()
         {
             glm::vec3(0.2f, 0.2f, 0.2f),//cubelight
             glm::vec3(1.0f, 1.0f, 1.0f),//table
-            glm::vec3(1.0f, 1.0f, 1.0f),//cake
+            glm::vec3(0.5f, 0.5f, 0.5f),//cake
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
             glm::vec3(1.0f, 1.0f, 1.0f),//balloon
