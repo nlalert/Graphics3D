@@ -38,7 +38,7 @@ struct Model {
 std::vector<Model> models = {
         {"cube", "uvmap", 1},
         {"table", "table", 0},
-        {"bigcake", "bigcake", 0},
+        {"bigcakenoflame", "bigcakenoflame", 0},
         {"balloon", "red", 0},
         {"balloon", "red", 0},
         {"balloon", "red", 0},
@@ -191,7 +191,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     {
         lightPos,//cubelight
         glm::vec3(0.0f, 0.0f, 0.0f),//table
-        glm::vec3(0.0f, 0.85f, 0.0f),//cake
+        glm::vec3(0.0f, 0.825f, 0.0f),//cake
         glm::vec3(1.0f, 0.85f, 0.0f),//balloon
         glm::vec3(1.0f, 0.95f, -0.2f),//balloon
         glm::vec3(1.3f, 0.85f, 0.1f),//balloon
@@ -227,7 +227,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     {
         glm::vec3(0.05f),//cubelight
         glm::vec3(1.0f),//table
-        glm::vec3(1.0f),//cake
+        glm::vec3(0.4f),//cake
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
