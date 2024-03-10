@@ -58,7 +58,7 @@ std::vector<Model> models = {
         {"hat", "hat", 0, 0.5f, 0.1f, 1.0f},
         {"plate", "plate", 0, 0.5f, 0.5f, 512.0f},
         {"drawer", "white", 0, 0.5f, 0.1f, 1.0f},
-        {"TV", "TV", 0, 0.6f, 0.5f, 512.0f},
+        {"TV", "TV", 0, 0.3f, 0.8f, 256.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -384,8 +384,8 @@ int main()
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
-        glm::mat4 lightProjection = glm::perspective(180.0f, 1.0f, 0.1f, 100.0f);
-        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, 0.0f), up);
+        glm::mat4 lightProjection = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
+        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, -3.0f), up);
 
         depthShader->UseShader();
         uniformModel = depthShader->GetUniformLocation("model");
