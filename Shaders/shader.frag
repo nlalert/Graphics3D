@@ -8,6 +8,10 @@ in vec4 fragPosLightSpace;
 
 out vec4 colour;
 
+uniform float diffuseStrength;
+uniform float specularStrength;
+uniform float shininess;
+
 uniform vec3 lightColour;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
@@ -40,47 +44,42 @@ float ShadowCalculation()
 
     return shadow;
 }
+
 vec3 ambientLight()
 {
-    float ambientStrength = 0.2f;
+    float ambientStrength = 0.4f;
     vec3 ambient = lightColour * ambientStrength;
     return ambient;
 }
 
 vec3 diffuseLight()
 {
-    float diffuseStrength = 0.5f;
     vec3 lightDir = normalize(lightPos - FragPos);
     vec3 norm = normalize(Normal);
     float diff = max(dot(norm, lightDir), 0.0f);
-    vec3 diffuse = lightColour * diff * diffuseStrength;
+    // Calculate light attenuation
+    float distance = length(lightPos - FragPos);
+    float attenuation = 1.0 / (1.0 + 0.1 * distance + 0.01 * distance * distance);
+    vec3 diffuse = lightColour * diff * attenuation * diffuseStrength;
     return diffuse;
 }
 
 vec3 specularLight()
 {
-    float specularStrength = 0.3f;
-    float shininess = 256.0f;//= 64 for phong
-     
     vec3 lightDir = normalize(lightPos - FragPos);
     vec3 norm = normalize(Normal);
-
     vec3 viewDir = normalize(viewPos - FragPos);
-
-    vec3 reflectDir = reflect(-lightDir, norm);
-
-    //Phong Shading
-    //float spec = pow(max(dot(viewDir, reflectDir), 0.0f), shininess);
-
-    //Blinn-Phong Shading
-    vec3 halfDir = (viewDir + lightDir)/2.0f;
+    vec3 halfDir = (viewDir + lightDir) / 2.0f;
     float spec = pow(max(dot(halfDir, norm), 0.0f), shininess);
-    vec3 specular = lightColour * spec * specularStrength;
+    // Calculate light attenuation
+    float distance = length(lightPos - FragPos);
+    float attenuation = 1.0 / (1.0 + 0.1 * distance + 0.01 * distance * distance);
+    vec3 specular = lightColour * spec * attenuation * specularStrength;
     return specular;
 }
 
 void main()
 {
     float shadow = ShadowCalculation();
-    colour = texture(texture2D, TexCoord) * vec4((1.0 - shadow)*(ambientLight() + diffuseLight() + specularLight()), 1.0f);
+    colour = texture(texture2D, TexCoord) * vec4((1.0 - shadow) * (ambientLight() + diffuseLight() + specularLight()), 1.0f);
 }

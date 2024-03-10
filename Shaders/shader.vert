@@ -1,3 +1,4 @@
+//vertex shader
 #version 330
 
 layout (location = 0) in vec3 pos;
@@ -17,7 +18,7 @@ uniform mat4 lightView;
 
 void main()
 {
-    vec3 FragPos = vec3(model * vec4(pos, 1.0));
+    FragPos = vec3(model * vec4(pos, 1.0));
     fragPosLightSpace = lightProjection * lightView * vec4(FragPos, 1.0);
     gl_Position = projection * view * vec4(FragPos, 1.0);
     TexCoord = aTexCoord;
