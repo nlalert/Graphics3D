@@ -409,8 +409,7 @@ int main()
         glfwPollEvents();
 
         checkMouse();
-        std::cout << "Cam Pos: (" << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << ")" << std::endl;
-        std::cout << "LightPos: (" << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << ")" << std::endl;
+        std::cout << "Cam Pos: (" << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << ")"<< "LightPos: (" << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << ")" << std::endl;
         glm::vec3 direction;
 
         direction.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
