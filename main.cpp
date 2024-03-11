@@ -48,8 +48,6 @@ std::vector<Model> models = {
         {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
-        {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
-        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
@@ -69,7 +67,6 @@ std::vector<Model> models = {
         {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
-        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
@@ -240,10 +237,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(-2.2f, 2.145f, -1.8f),//yellow_balloon_1
         glm::vec3(-1.1f, 1.345f, -0.5f),//yellow_balloon_2
         glm::vec3(0.9f, 1.345f, -0.2f),//yellow_balloon_3
-        glm::vec3(1.4f, 1.045f, -0.5f),//yellow_balloon_4
         glm::vec3(2.1f, 2.445f, -0.9f),//yellow_balloon_5
         glm::vec3(-2.4f, 1.945f, -1.4f),//blue_balloon_1
-        glm::vec3(-1.6f, 2.145f, -0.2f),//blue_balloon_2
         glm::vec3(0.2f, 1.745f, -1.5f),//blue_balloon_3
         glm::vec3(1.1f, 2.045f, -0.6f),//blue_balloon_4
         glm::vec3(2.6f, 2.245f, -1.3f),//blue_balloon_5
@@ -262,7 +257,6 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.4f, 0.645f, -1.3f),//pink_balloon_3
         glm::vec3(1.7f, 1.345f, -1.2f),//pink_balloon_4
         glm::vec3(2.4f, 0.545f, -0.5f),//pink_balloon_5
-        glm::vec3(-2.4f, 2.645f, -1.3f),//orange_balloon_1
         glm::vec3(-1.9f, 0.745f, -0.3f),//orange_balloon_2
         glm::vec3(-0.7f, 1.245f, 0.0f),//orange_balloon_3
         glm::vec3(1.5f, 1.745f, -1.5f),//orange_balloon_4
@@ -298,10 +292,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//yellow_balloon_1
         glm::radians(0.0f),//yellow_balloon_2
         glm::radians(0.0f),//yellow_balloon_3
-        glm::radians(0.0f),//yellow_balloon_4
         glm::radians(0.0f),//yellow_balloon_5
         glm::radians(0.0f),//blue_balloon_1
-        glm::radians(0.0f),//blue_balloon_2
         glm::radians(0.0f),//blue_balloon_3
         glm::radians(0.0f),//blue_balloon_4
         glm::radians(0.0f),//blue_balloon_5
@@ -320,7 +312,6 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//pink_balloon_3
         glm::radians(0.0f),//pink_balloon_4
         glm::radians(0.0f),//pink_balloon_5
-        glm::radians(0.0f),//orange_balloon_1
         glm::radians(0.0f),//orange_balloon_2
         glm::radians(0.0f),//orange_balloon_3
         glm::radians(0.0f),//orange_balloon_4
@@ -356,10 +347,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.1f),//yellow_balloon_1
         glm::vec3(1.0f),//yellow_balloon_2
         glm::vec3(1.2f),//yellow_balloon_3
-        glm::vec3(1.0f),//yellow_balloon_4
         glm::vec3(1.1f),//yellow_balloon_5
         glm::vec3(1.3f),//blue_balloon_1
-        glm::vec3(1.2f),//blue_balloon_2
         glm::vec3(1.0f),//blue_balloon_3
         glm::vec3(1.1f),//blue_balloon_4
         glm::vec3(1.0f),//blue_balloon_5
@@ -378,7 +367,6 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.2f),//pink_balloon_3
         glm::vec3(1.1f),//pink_balloon_4
         glm::vec3(1.0f),//pink_balloon_5
-        glm::vec3(1.0f),//orange_balloon_1
         glm::vec3(1.2f),//orange_balloon_2
         glm::vec3(1.0f),//orange_balloon_3
         glm::vec3(1.1f),//orange_balloon_4
@@ -528,7 +516,7 @@ int main()
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
         glm::mat4 lightProjection = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
-        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, -3.0f), up);
+        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, 0.0f), up);
 
         depthShader->UseShader();
         uniformModel = depthShader->GetUniformLocation("model");
