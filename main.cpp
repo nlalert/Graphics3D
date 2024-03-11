@@ -77,6 +77,8 @@ std::vector<Model> models = {
         {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
         {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
         {"woodtable", "woodtable", 0, 0.5f, 0.1f, 1.0f},
+        {"gift", "gift", 0, 0.5f, 0.1f, 1.0f},
+        {"carpet", "carpet", 0, 0.5f, 0.1f, 1.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -241,17 +243,19 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.0f, 2.4f, -4.8f),//bunting
         glm::vec3(4.8f, 2.4f, 0.0),//bunting
         glm::vec3(-4.8f, 2.4f, 0.0),//bunting
-        glm::vec3(0.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(0.0f, 0.02f, 0.0),//confetti
         glm::vec3(0.0f, 0.0001f, -2.0),//confetti
         glm::vec3(2.0f, 0.0001f, -2.0),//confetti
         glm::vec3(-2.0f, 0.0001f, -2.0),//confetti
-        glm::vec3(3.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(3.0f, 0.02f, 0.0),//confetti
         glm::vec3(0.0f, 0.0001f, -3.0),//confetti
-        glm::vec3(2.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(2.0f, 0.02f, 0.0),//confetti
         glm::vec3(3.0f, 0.0001f, -3.0),//confetti
-        glm::vec3(1.0f, 0.0001f, 0.0),//confetti
-        glm::vec3(-1.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(1.0f, 0.02f, 0.0),//confetti
+        glm::vec3(-1.0f, 0.02f, 0.0),//confetti
         glm::vec3(4.2f, 0.0f, 0.0),//woodtable
+        glm::vec3(4.2f, 0.9f, -1.0),//gift
+        glm::vec3(0.0f, 0.0001f, 0.0),//carpet
     };
 
     float modelRotations[] =
@@ -292,6 +296,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(19.0f),//confetti
         glm::radians(64.0f),//confetti
         glm::radians(90.0f),//wood table
+        glm::radians(0.0f),//gift
+        glm::radians(0.0f),//carpet
     };
 
     glm::vec3 modelScale[] =
@@ -332,6 +338,8 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.6f),//confetti
         glm::vec3(0.6f),//confetti
         glm::vec3(1.5f, 1.75f, 2.0f),//woodtable
+        glm::vec3(1.0f),//gift
+        glm::vec3(2.0f),//carpet
     };
     //Object
     for (int i = 0; i < models.size(); i++)
