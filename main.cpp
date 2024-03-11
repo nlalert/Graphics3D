@@ -43,7 +43,7 @@ std::vector<Model> models = {
         //diffuseLight != 0
         {"cube", "uvmap", 1, 0, 0, 0},
         {"table", "table", 0, 0.5f, 0.1f, 1.0f},
-        {"bigcakenoflame", "bigcakenoflame", 0, 0.5f, 0.1f, 1.0f},
+        {"cake2", "cake", 0, 0.5f, 0.1f, 1.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
@@ -59,6 +59,19 @@ std::vector<Model> models = {
         {"plate", "plate", 0, 0.5f, 0.5f, 512.0f},
         {"drawer", "white", 0, 0.5f, 0.1f, 1.0f},
         {"TV", "TV", 0, 0.3f, 0.8f, 256.0f},
+        {"bunting", "bunting", 0, 0.5f, 0.1f, 1.0f},
+        {"bunting", "bunting", 0, 0.5f, 0.1f, 1.0f},
+        {"bunting", "bunting", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -67,7 +80,7 @@ std::vector<std::string> fShaders = {"shader", "lightShader"};
 float yaw = -90.0f, pitch = 0.0f;
 GLuint uniformModel = 0, uniformProjection = 0, uniformView = 0;
 
-glm::vec3 lightColour = glm::vec3(255.0f, 248.0f, 212.0f);
+glm::vec3 lightColour = glm::vec3(255.0f, 248.0f, 232.0f);
 glm::vec3 lightPos = glm::vec3(-1.0f, 1.0f, 1.5f);
 glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 4.0f);
 
@@ -213,15 +226,28 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
         glm::vec3(0.6f, 0.845f, 0.0f),//hat
-        glm::vec3(-0.6f, 0.845f, 0.0f),//plate
+        glm::vec3(-0.5f, 0.845f, 0.0f),//plate
         glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
         glm::vec3(-0.5f, 1.35f, -4.5f),//TV
+        glm::vec3(0.0f, 2.4f, -4.8f),//bunting
+        glm::vec3(4.8f, 2.4f, 0.0),//bunting
+        glm::vec3(-4.8f, 2.4f, 0.0),//bunting
+        glm::vec3(0.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(0.0f, 0.0001f, -2.0),//confetti
+        glm::vec3(2.0f, 0.0001f, -2.0),//confetti
+        glm::vec3(-2.0f, 0.0001f, -2.0),//confetti
+        glm::vec3(3.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(0.0f, 0.0001f, -3.0),//confetti
+        glm::vec3(2.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(3.0f, 0.0001f, -3.0),//confetti
+        glm::vec3(1.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(-1.0f, 0.0001f, 0.0),//confetti
     };
 
     float modelRotations[] =
     {
         glm::radians(0.0f),//cubelight
-        glm::radians(1.0f),//table
+        glm::radians(0.5f),//table
         glm::radians(0.0f),//cake
         glm::radians(0.0f),//balloon
         glm::radians(0.0f),//balloon
@@ -238,13 +264,26 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//plate
         glm::radians(0.0f),//drawer
         glm::radians(-1.0f),//TV
+        glm::radians(0.0f),//bunting
+        glm::radians(90.0f),//bunting
+        glm::radians(-90.0f),//bunting
+        glm::radians(0.0f),//confetti
+        glm::radians(0.0f),//confetti
+        glm::radians(15.0f),//confetti
+        glm::radians(90.0f),//confetti
+        glm::radians(26.0f),//confetti
+        glm::radians(30.0f),//confetti
+        glm::radians(75.0f),//confetti
+        glm::radians(60.0f),//confetti
+        glm::radians(19.0f),//confetti
+        glm::radians(64.0f),//confetti
     };
 
     glm::vec3 modelScale[] =
     {
         glm::vec3(0.05f),//cubelight
         glm::vec3(1.0f),//table
-        glm::vec3(0.3f),//cake
+        glm::vec3(1.0f),//cake
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
@@ -260,6 +299,19 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.5f, 1.0f, 1.5f),//plate  
         glm::vec3(1.0f),//drawer  
         glm::vec3(1.0f),//TV
+        glm::vec3(1.0f),//bunting
+        glm::vec3(1.0f),//bunting
+        glm::vec3(1.0f),//bunting
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
+        glm::vec3(0.6f),//confetti
     };
     //Object
     for (int i = 0; i < models.size(); i++)
@@ -358,6 +410,7 @@ int main()
 
         checkMouse();
         std::cout << "Cam Pos: (" << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << ")" << std::endl;
+        std::cout << "LightPos: (" << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << ")" << std::endl;
 
         glm::vec3 direction;
 
