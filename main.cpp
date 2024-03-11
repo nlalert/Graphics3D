@@ -28,28 +28,37 @@ struct Model {
     std::string name;
     std::string texture;
     int shaderIndex;
+    float diffuseStrength;
+    float specularStrength;
+    float shininess;
 
-    Model(const std::string& n, const std::string& tex, int shader)
-        : name(n), texture(tex), shaderIndex(shader) {}
+    Model(const std::string& n, const std::string& tex, int shader, float diffuse, float specular, float shiny)
+        : name(n), texture(tex), shaderIndex(shader), diffuseStrength(diffuse), specularStrength(specular), shininess(shiny) {}
 };
 //choose model and texture here
 //if add or remove, go to modelPosition array and to the same
 
 std::vector<Model> models = {
-        {"cube", "uvmap", 1},
-        {"table", "table", 0},
-        {"bigcakenoflame", "bigcakenoflame", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"balloon", "red", 0},
-        {"floor", "oakfloor", 0},
-        {"wall", "wall", 0},
-        {"banner", "banner", 0},
+        // obj, texture, shader, diffuse, spec, shiny
+        //diffuseLight != 0
+        {"cube", "uvmap", 1, 0, 0, 0},
+        {"table", "table", 0, 0.5f, 0.1f, 1.0f},
+        {"cake2", "cake", 0, 0.5f, 0.1f, 1.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"floor", "oakfloor", 0, 0.5f, 0.5f, 256.0f},
+        {"wall", "wall", 0, 0.5f, 0.1f, 1.0f},
+        {"banner", "banner", 0, 0.5f, 0.1f, 1.0f},
+        {"hat", "hat", 0, 0.5f, 0.1f, 1.0f},
+        {"plate", "plate", 0, 0.5f, 0.5f, 512.0f},
+        {"drawer", "white", 0, 0.5f, 0.1f, 1.0f},
+        {"TV", "TV", 0, 0.3f, 0.8f, 256.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -191,24 +200,28 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     {
         lightPos,//cubelight
         glm::vec3(0.0f, 0.0f, 0.0f),//table
-        glm::vec3(0.0f, 0.825f, 0.0f),//cake
-        glm::vec3(1.0f, 0.85f, 0.0f),//balloon
-        glm::vec3(1.0f, 0.95f, -0.2f),//balloon
-        glm::vec3(1.3f, 0.85f, 0.1f),//balloon
-        glm::vec3(1.1f, 0.75f, 0.0f),//balloon
-        glm::vec3(1.0f, 0.85f, 0.0f),//balloon
-        glm::vec3(-1.2f, 0.85f, 0.3f),//balloon
-        glm::vec3(1.3f, 0.85f, 0.0f),//balloon
-        glm::vec3(1.1f, 0.85f, 0.0f),//balloon
+        glm::vec3(0.0f, 0.845f, 0.0f),//cake
+        glm::vec3(1.0f, 0.845f, 0.0f),//balloon
+        glm::vec3(1.0f, 0.945f, -0.2f),//balloon
+        glm::vec3(1.3f, 0.845f, 0.1f),//balloon
+        glm::vec3(1.1f, 0.745f, 0.0f),//balloon
+        glm::vec3(1.0f, 0.845f, 0.0f),//balloon
+        glm::vec3(-1.2f, 0.845f, 0.3f),//balloon
+        glm::vec3(1.3f, 0.845f, 0.0f),//balloon
+        glm::vec3(1.1f, 0.845f, 0.0f),//balloon
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
-        glm::vec3(0.2f, 2.0f, -1.0f),//banner
+        glm::vec3(0.5f, 2.4f, -2.0f),//banner
+        glm::vec3(0.6f, 0.845f, 0.0f),//hat
+        glm::vec3(-0.5f, 0.845f, 0.0f),//plate
+        glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
+        glm::vec3(-0.5f, 1.35f, -4.5f),//TV
     };
 
     float modelRotations[] =
     {
         glm::radians(0.0f),//cubelight
-        glm::radians(0.0f),//table
+        glm::radians(1.0f),//table
         glm::radians(0.0f),//cake
         glm::radians(0.0f),//balloon
         glm::radians(0.0f),//balloon
@@ -220,7 +233,11 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//balloon
         glm::radians(0.0f),//floor
         glm::radians(0.0f),//wall
-        glm::radians(15.0f),//banner
+        glm::radians(25.0f),//banner
+        glm::radians(0.0f),//hat
+        glm::radians(0.0f),//plate
+        glm::radians(0.0f),//drawer
+        glm::radians(-1.0f),//TV
     };
 
     glm::vec3 modelScale[] =
@@ -236,10 +253,13 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//floor
-        glm::vec3(1.0f),//wall
-        glm::vec3(0.6f),//banner
+        glm::vec3(1.0f, 2.0f, 1.0f),//wall
+        glm::vec3(1.0f),//banner
+        glm::vec3(0.4f),//hat  
+        glm::vec3(1.5f, 1.0f, 1.5f),//plate  
+        glm::vec3(1.0f),//drawer  
+        glm::vec3(1.0f),//TV
     };
     //Object
     for (int i = 0; i < models.size(); i++)
@@ -261,6 +281,10 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
         //light
+        glUniform1f(shaderList[shaderIndex]->GetUniformLocation("diffuseStrength"), (GLfloat) models[i].diffuseStrength);
+        glUniform1f(shaderList[shaderIndex]->GetUniformLocation("specularStrength"), (GLfloat) models[i].specularStrength);
+        glUniform1f(shaderList[shaderIndex]->GetUniformLocation("shininess"), (GLfloat) models[i].shininess);
+        
         glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightColour"), 1, (GLfloat *)&lightColour);
         glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("lightPos"), 1, (GLfloat *)&lightPos);
         glUniform3fv(shaderList[shaderIndex]->GetUniformLocation("viewPos"), 1, (GLfloat *)&cameraPos);
@@ -360,8 +384,8 @@ int main()
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
-        glm::mat4 lightProjection = glm::perspective(180.0f, 1.0f, 0.1f, 100.0f);
-        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, 0.0f), up);
+        glm::mat4 lightProjection = glm::perspective(90.0f, 1.0f, 0.1f, 100.0f);
+        glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.85f, -3.0f), up);
 
         depthShader->UseShader();
         uniformModel = depthShader->GetUniformLocation("model");
