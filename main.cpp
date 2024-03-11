@@ -43,15 +43,37 @@ std::vector<Model> models = {
         //diffuseLight != 0
         {"cube", "uvmap", 1, 0, 0, 0},
         {"table", "table", 0, 0.5f, 0.1f, 1.0f},
-        {"cake2", "cake", 0, 0.5f, 0.1f, 1.0f},
+        {"bigcakenoflame", "bigcakenoflame", 0, 0.5f, 0.1f, 1.0f},
+        {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "yellow", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
-        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
-        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
-        {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "green", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "green", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "green", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "green", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "green", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
         {"floor", "oakfloor", 0, 0.5f, 0.5f, 256.0f},
         {"wall", "wall", 0, 0.5f, 0.1f, 1.0f},
         {"banner", "banner", 0, 0.5f, 0.1f, 1.0f},
@@ -214,19 +236,41 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         lightPos,//cubelight
         glm::vec3(0.0f, 0.0f, 0.0f),//table
         glm::vec3(0.0f, 0.845f, 0.0f),//cake
-        glm::vec3(1.2f, 1.145f, -0.3f),//balloon
-        glm::vec3(0.9f, 1.345f, -0.2f),//balloon
-        glm::vec3(1.4f, 1.045f, 0.1f),//balloon
-        glm::vec3(1.1f, 0.845f, 0.0f),//balloon
-        glm::vec3(-1.0f, 1.145f, 0.0f),//balloon
-        glm::vec3(-1.2f, 1.545f, 0.3f),//balloon
-        glm::vec3(-1.3f, 0.945f, 0.1f),//balloon
-        glm::vec3(-1.1f, 0.845f, -0.2f),//balloon
+        glm::vec3(-2.2f, 2.145f, -1.8f),//yellow_balloon_1
+        glm::vec3(-1.1f, 1.345f, -0.5f),//yellow_balloon_2
+        glm::vec3(0.9f, 1.345f, -0.2f),//yellow_balloon_3
+        glm::vec3(1.4f, 1.045f, -0.5f),//yellow_balloon_4
+        glm::vec3(2.1f, 2.445f, -0.9f),//yellow_balloon_5
+        glm::vec3(-2.4f, 1.945f, -1.4f),//blue_balloon_1
+        glm::vec3(-1.6f, 2.145f, -0.2f),//blue_balloon_2
+        glm::vec3(0.2f, 1.745f, -1.5f),//blue_balloon_3
+        glm::vec3(1.1f, 2.045f, -0.6f),//blue_balloon_4
+        glm::vec3(2.6f, 2.245f, -1.3f),//blue_balloon_5
+        glm::vec3(-2.3f, 0.945f, -1.6f),//red_balloon_1
+        glm::vec3(-1.5f, 1.045f, -0.6f),//red_balloon_2
+        glm::vec3(0.4f, 1.345f, -1.3f),//red_balloon_3
+        glm::vec3(1.3f, 1.245f, -0.9f),//red_balloon_4
+        glm::vec3(2.3f, 1.545f, -1.1f),//red_balloon_5
+        glm::vec3(-2.8f, 2.645f, -2.6f),//green_balloon_1
+        glm::vec3(-1.6f, 1.545f, -0.9f),//green_balloon_2
+        glm::vec3(-0.3f, 1.645f, -1.5f),//green_balloon_3
+        glm::vec3(1.4f, 1.745f, -1.1f),//green_balloon_4
+        glm::vec3(2.6f, 2.545f, -2.1f),//green_balloon_5
+        glm::vec3(-2.2f, 0.645f, -2.8f),//pink_balloon_1
+        glm::vec3(-1.8f, 1.245f, -0.7f),//pink_balloon_2
+        glm::vec3(0.4f, 0.645f, -1.3f),//pink_balloon_3
+        glm::vec3(1.7f, 1.345f, -1.2f),//pink_balloon_4
+        glm::vec3(2.4f, 0.545f, -0.5f),//pink_balloon_5
+        glm::vec3(-2.4f, 2.645f, -1.3f),//orange_balloon_1
+        glm::vec3(-1.9f, 0.745f, -0.3f),//orange_balloon_2
+        glm::vec3(-0.7f, 1.245f, 0.0f),//orange_balloon_3
+        glm::vec3(1.5f, 1.745f, -1.5f),//orange_balloon_4
+        glm::vec3(2.8f, 0.845f, -0.7f),//orange_balloon_5
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
         glm::vec3(0.6f, 0.845f, 0.0f),//hat
-        glm::vec3(-0.5f, 0.845f, 0.0f),//plate
+        glm::vec3(-0.6f, 0.845f, 0.0f),//plate
         glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
         glm::vec3(-0.5f, 1.35f, -4.5f),//TV
         glm::vec3(0.0f, 2.4f, -4.8f),//bunting
@@ -249,14 +293,36 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//cubelight
         glm::radians(0.5f),//table
         glm::radians(0.0f),//cake
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
-        glm::radians(0.0f),//balloon
+        glm::radians(0.0f),//yellow_balloon_1
+        glm::radians(0.0f),//yellow_balloon_2
+        glm::radians(0.0f),//yellow_balloon_3
+        glm::radians(0.0f),//yellow_balloon_4
+        glm::radians(0.0f),//yellow_balloon_5
+        glm::radians(0.0f),//blue_balloon_1
+        glm::radians(0.0f),//blue_balloon_2
+        glm::radians(0.0f),//blue_balloon_3
+        glm::radians(0.0f),//blue_balloon_4
+        glm::radians(0.0f),//blue_balloon_5
+        glm::radians(0.0f),//red_balloon_1
+        glm::radians(0.0f),//red_balloon_2
+        glm::radians(0.0f),//red_balloon_3
+        glm::radians(0.0f),//red_balloon_4
+        glm::radians(0.0f),//red_balloon_5
+        glm::radians(0.0f),//green_balloon_1
+        glm::radians(0.0f),//green_balloon_2
+        glm::radians(0.0f),//green_balloon_3
+        glm::radians(0.0f),//green_balloon_4
+        glm::radians(0.0f),//green_balloon_5
+        glm::radians(0.0f),//pink_balloon_1
+        glm::radians(0.0f),//pink_balloon_2
+        glm::radians(0.0f),//pink_balloon_3
+        glm::radians(0.0f),//pink_balloon_4
+        glm::radians(0.0f),//pink_balloon_5
+        glm::radians(0.0f),//orange_balloon_1
+        glm::radians(0.0f),//orange_balloon_2
+        glm::radians(0.0f),//orange_balloon_3
+        glm::radians(0.0f),//orange_balloon_4
+        glm::radians(0.0f),//orange_balloon_5
         glm::radians(0.0f),//floor
         glm::radians(0.0f),//wall
         glm::radians(25.0f),//banner
@@ -283,15 +349,37 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     {
         glm::vec3(0.05f),//cubelight
         glm::vec3(1.0f),//table
-        glm::vec3(1.0f),//cake
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
-        glm::vec3(1.0f),//balloon
+        glm::vec3(0.3f),//cake
+        glm::vec3(1.1f),//yellow_balloon_1
+        glm::vec3(1.0f),//yellow_balloon_2
+        glm::vec3(1.2f),//yellow_balloon_3
+        glm::vec3(1.0f),//yellow_balloon_4
+        glm::vec3(1.1f),//yellow_balloon_5
+        glm::vec3(1.3f),//blue_balloon_1
+        glm::vec3(1.2f),//blue_balloon_2
+        glm::vec3(1.0f),//blue_balloon_3
+        glm::vec3(1.1f),//blue_balloon_4
+        glm::vec3(1.0f),//blue_balloon_5
+        glm::vec3(1.0f),//red_balloon_1
+        glm::vec3(1.2f),//red_balloon_2
+        glm::vec3(1.0f),//red_balloon_3
+        glm::vec3(1.2f),//red_balloon_4
+        glm::vec3(1.1f),//red_balloon_5
+        glm::vec3(1.0f),//green_balloon_1
+        glm::vec3(1.1f),//green_balloon_2
+        glm::vec3(1.3f),//green_balloon_3
+        glm::vec3(1.2f),//green_balloon_4
+        glm::vec3(1.0f),//green_balloon_5
+        glm::vec3(1.2f),//pink_balloon_1
+        glm::vec3(1.0f),//pink_balloon_2
+        glm::vec3(1.2f),//pink_balloon_3
+        glm::vec3(1.1f),//pink_balloon_4
+        glm::vec3(1.0f),//pink_balloon_5
+        glm::vec3(1.0f),//orange_balloon_1
+        glm::vec3(1.2f),//orange_balloon_2
+        glm::vec3(1.0f),//orange_balloon_3
+        glm::vec3(1.1f),//orange_balloon_4
+        glm::vec3(1.3f),//orange_balloon_5
         glm::vec3(1.0f),//floor
         glm::vec3(1.0f, 2.0f, 1.0f),//wall
         glm::vec3(1.0f),//banner
