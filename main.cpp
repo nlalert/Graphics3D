@@ -62,6 +62,9 @@ std::vector<Model> models = {
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "green", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
+        
+        {"balloon", "blue", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
 
         {"floor", "oakfloor", 0, 0.5f, 0.5f, 256.0f},
         {"wall", "wall", 0, 0.5f, 0.1f, 1.0f},
@@ -248,6 +251,9 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(4.4f, 1.9f, 0.7f),//green_balloon_right
         glm::vec3(4.5f, 2.7f, 0.0f),//pink_balloon_right
 
+        glm::vec3(1.8f, 0.9f, 0.0f),//blue_balloon_table
+        glm::vec3(-1.3f, 1.1f, 0.0f),//pink_balloon_table
+
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
@@ -298,6 +304,9 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(0.0f),//green_balloon_right
         glm::radians(0.0f),//pink_balloon_right
 
+        glm::radians(0.0f),//blue_balloon_table
+        glm::radians(0.0f),//pink_balloon_table
+
         glm::radians(0.0f),//floor
         glm::radians(0.0f),//wall
         glm::radians(25.0f),//banner
@@ -346,6 +355,9 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(1.1f),//red_balloon_right
         glm::vec3(1.0f),//green_balloon_right
         glm::vec3(1.0f),//pink_balloon_right
+
+        glm::vec3(0.8f),//blue_balloon_table
+        glm::vec3(0.8f),//pink_balloon_table
 
         glm::vec3(1.0f),//floor
         glm::vec3(1.0f, 2.0f, 1.0f),//wall
