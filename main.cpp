@@ -43,7 +43,7 @@ std::vector<Model> models = {
         //diffuseLight != 0
         {"cube", "uvmap", 1, 0, 0, 0},
         {"table", "table", 0, 0.5f, 0.1f, 1.0f},
-        {"cake2", "cake", 0, 0.5f, 0.1f, 1.0f},
+        {"bigcakenoflame", "bigcakenoflame", 0, 0.5f, 0.1f, 1.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
@@ -226,7 +226,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
         glm::vec3(0.6f, 0.845f, 0.0f),//hat
-        glm::vec3(-0.5f, 0.845f, 0.0f),//plate
+        glm::vec3(-0.6f, 0.845f, 0.0f),//plate
         glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
         glm::vec3(-0.5f, 1.35f, -4.5f),//TV
         glm::vec3(0.0f, 2.4f, -4.8f),//bunting
@@ -283,7 +283,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     {
         glm::vec3(0.05f),//cubelight
         glm::vec3(1.0f),//table
-        glm::vec3(1.0f),//cake
+        glm::vec3(0.3f),//cake
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
@@ -411,7 +411,6 @@ int main()
         checkMouse();
         std::cout << "Cam Pos: (" << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << ")" << std::endl;
         std::cout << "LightPos: (" << lightPos.x << ", " << lightPos.y << ", " << lightPos.z << ")" << std::endl;
-
         glm::vec3 direction;
 
         direction.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
