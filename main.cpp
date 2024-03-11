@@ -72,6 +72,7 @@ std::vector<Model> models = {
         {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
         {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
         {"confetti", "confetti", 0, 0.5f, 0.1f, 1.0f},
+        {"woodtable", "woodtable", 0, 0.5f, 0.1f, 1.0f},
     };
 
 std::vector<std::string> vShaders = {"shader", "lightShader"};
@@ -225,7 +226,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
-        glm::vec3(0.6f, 0.845f, 0.0f),//hat
+        glm::vec3(0.6f, 0.845f, 0.2f),//hat
         glm::vec3(-0.6f, 0.845f, 0.0f),//plate
         glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
         glm::vec3(-0.5f, 1.35f, -4.5f),//TV
@@ -242,6 +243,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(3.0f, 0.0001f, -3.0),//confetti
         glm::vec3(1.0f, 0.0001f, 0.0),//confetti
         glm::vec3(-1.0f, 0.0001f, 0.0),//confetti
+        glm::vec3(4.2f, 0.0f, 0.0),//woodtable
     };
 
     float modelRotations[] =
@@ -277,6 +279,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::radians(60.0f),//confetti
         glm::radians(19.0f),//confetti
         glm::radians(64.0f),//confetti
+        glm::radians(90.0f),//wood table
     };
 
     glm::vec3 modelScale[] =
@@ -312,6 +315,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         glm::vec3(0.6f),//confetti
         glm::vec3(0.6f),//confetti
         glm::vec3(0.6f),//confetti
+        glm::vec3(1.5f, 1.75f, 2.0f),//woodtable
     };
     //Object
     for (int i = 0; i < models.size(); i++)
