@@ -43,7 +43,7 @@ std::vector<Model> models = {
         //diffuseLight != 0
         {"cube", "uvmap", 1, 0, 0, 0},
         {"table", "table", 0, 0.5f, 0.1f, 1.0f},
-        {"cake2", "cake", 0, 0.5f, 0.1f, 1.0f},
+        {"bigcakenoflame", "bigcakenoflame", 0, 0.5f, 0.1f, 1.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "red", 0, 0.5f, 0.5f, 256.0f},
@@ -214,19 +214,19 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         lightPos,//cubelight
         glm::vec3(0.0f, 0.0f, 0.0f),//table
         glm::vec3(0.0f, 0.845f, 0.0f),//cake
-        glm::vec3(1.0f, 0.845f, 0.0f),//balloon
-        glm::vec3(1.0f, 0.945f, -0.2f),//balloon
-        glm::vec3(1.3f, 0.845f, 0.1f),//balloon
-        glm::vec3(1.1f, 0.745f, 0.0f),//balloon
-        glm::vec3(1.0f, 0.845f, 0.0f),//balloon
-        glm::vec3(-1.2f, 0.845f, 0.3f),//balloon
-        glm::vec3(1.3f, 0.845f, 0.0f),//balloon
-        glm::vec3(1.1f, 0.845f, 0.0f),//balloon
+        glm::vec3(1.0f, 1.045f, 0.0f),//balloon
+        glm::vec3(1.0f, 1.145f, -0.2f),//balloon
+        glm::vec3(1.0f, 1.045f, 0.1f),//balloon
+        glm::vec3(1.1f, 0.945f, 0.0f),//balloon
+        glm::vec3(-1.0f, 1.145f, 0.0f),//balloon
+        glm::vec3(-1.2f, 1.045f, 0.3f),//balloon
+        glm::vec3(1.3f, 1.045f, 0.0f),//balloon
+        glm::vec3(1.1f, 1.045f, 0.0f),//balloon
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
         glm::vec3(0.5f, 2.4f, -2.0f),//banner
         glm::vec3(0.6f, 0.845f, 0.0f),//hat
-        glm::vec3(-0.5f, 0.845f, 0.0f),//plate
+        glm::vec3(-0.6f, 0.845f, 0.0f),//plate
         glm::vec3(-0.5f, 0.0f, -5.0f),//drawer
         glm::vec3(-0.5f, 1.35f, -4.5f),//TV
         glm::vec3(0.0f, 2.4f, -4.8f),//bunting
@@ -283,7 +283,7 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
     {
         glm::vec3(0.05f),//cubelight
         glm::vec3(1.0f),//table
-        glm::vec3(1.0f),//cake
+        glm::vec3(0.3f),//cake
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
         glm::vec3(1.0f),//balloon
