@@ -55,6 +55,7 @@ std::vector<Model> models = {
         {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "pink", 0, 0.5f, 0.5f, 256.0f},
         {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
+        {"balloon", "orange", 0, 0.5f, 0.5f, 256.0f},
         {"floor", "oakfloor", 0, 0.5f, 0.5f, 256.0f},
         {"wall", "wall", 0, 0.5f, 0.1f, 1.0f},
         {"banner", "banner", 0, 0.5f, 0.1f, 1.0f},
@@ -218,17 +219,17 @@ void RenderScene(glm::mat4 view, glm::mat4 projection, glm::mat4 lightView, glm:
         lightPos,//cubelight
         glm::vec3(0.0f, 0.0f, 0.0f),//table
         glm::vec3(0.0f, 0.845f, 0.0f),//cake
-        glm::vec3(-2.2f, 2.145f, -1.8f),//yellow_balloon_1
+        glm::vec3(-2.4f, 1.8f, -3.5f),//yellow_balloon_1
         glm::vec3(2.1f, 2.445f, -0.9f),//yellow_balloon_5
-        glm::vec3(-2.4f, 1.945f, -1.4f),//blue_balloon_1
+        glm::vec3(-2.5f, 2.1f, -3.0f),//blue_balloon_1
         glm::vec3(2.6f, 2.245f, -1.3f),//blue_balloon_5
-        glm::vec3(-2.3f, 0.945f, -1.6f),//red_balloon_1
+        glm::vec3(-2.7f, 1.5f, -2.7f),//red_balloon_1
         glm::vec3(2.3f, 1.545f, -1.1f),//red_balloon_5
-        glm::vec3(-2.8f, 2.645f, -2.6f),//green_balloon_1
+        glm::vec3(-2.8f, 2.6f, -2.6f),//green_balloon_1
         glm::vec3(2.6f, 2.545f, -2.1f),//green_balloon_5
-        glm::vec3(-2.2f, 0.645f, -2.8f),//pink_balloon_1
+        glm::vec3(-2.2f, 0.8f, -2.8f),//pink_balloon_1
         glm::vec3(2.4f, 0.545f, -0.5f),//pink_balloon_5
-        glm::vec3(-2.4f, 2.645f, -1.3f),//orange_balloon_1
+        glm::vec3(-2.3f, 3.8f, -3.5f),//orange_balloon_1
         glm::vec3(2.8f, 0.845f, -0.7f),//orange_balloon_5
         glm::vec3(0.0f, 0.0f, 0.0f),//floor
         glm::vec3(0.0f, 0.0f, 0.0f),//wall
